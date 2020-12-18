@@ -11,10 +11,11 @@ from pathlib import Path
 import webbrowser
 
 
+PACKAGE_NAME = "{{ cookiecutter.project_slug }}"
 ROOT_DIR = Path(__file__).parent
 SETUP_FILE = ROOT_DIR.joinpath("setup.py")
 TEST_DIR = ROOT_DIR.joinpath("tests")
-SOURCE_DIR = ROOT_DIR.joinpath("{{ cookiecutter.project_slug }}")
+SOURCE_DIR = ROOT_DIR.joinpath(PACKAGE_NAME)
 TOX_DIR = ROOT_DIR.joinpath(".tox")
 COVERAGE_FILE = ROOT_DIR.joinpath(".coverage")
 COVERAGE_DIR = ROOT_DIR.joinpath("htmlcov")
@@ -107,6 +108,7 @@ def docs(c, launch=True):
     """
     Generate documentation
     """
+    _run(c, "sphinx-apidoc -o {} {}".format(DOCS_DIR, PACKAGE_NAME))
     _run(c, "sphinx-build -b html {} {}".format(DOCS_DIR, DOCS_BUILD_DIR))
     if launch:
         webbrowser.open(DOCS_INDEX.as_uri())
